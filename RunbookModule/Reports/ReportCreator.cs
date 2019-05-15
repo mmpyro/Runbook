@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RunbookModule.Dtos;
 using RunbookModule.Sections;
 
 namespace RunbookModule.Report
 {
     public interface IReportCreator
     {
-        string CreateReport(Runbook runbook, double overallExecutionSeconds);
-        string CreateReport(ISection section);
+        ReportDto CreateReport(IRunbook runbook, TimeSpan overallExecutionTime);
     }
 
     public class ReportCreator : IReportCreator
     {
-        public string CreateReport(Runbook runbook, double overallExecutionSeconds)
+        public ReportDto CreateReport(IRunbook runbook, TimeSpan overallExecutionTime)
         {
             var sb = new StringBuilder("\nOverall report:\n");
             runbook.Sections.ForEach(section =>
@@ -22,11 +22,11 @@ namespace RunbookModule.Report
                 string report = CreateReport(section);
                 sb.AppendLine(!string.IsNullOrEmpty(report) ? report : $"{section.SectionName} skip because previous error");
             });
-            sb.AppendLine($"Overall execution time: {overallExecutionSeconds} [s]");
-            return sb.ToString();
+            sb.AppendLine($"Overall execution time: {overallExecutionTime.TotalSeconds} [s]");
+            return new ReportDto(sb.ToString(), overallExecutionTime);
         }
 
-        public string CreateReport(ISection section)
+        private string CreateReport(ISection section)
         {
             if (!section.ChaptersExecutionInfos.Any())
                 return null;           

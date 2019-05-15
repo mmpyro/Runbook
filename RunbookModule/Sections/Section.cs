@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using RunbookModule.Report;
-using RunbookModule.Loggers;
 
 namespace RunbookModule.Sections
 {

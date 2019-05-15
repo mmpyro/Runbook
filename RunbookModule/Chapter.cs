@@ -27,7 +27,7 @@ namespace RunbookModule
         private uint _numberOfRetries;
         private readonly bool _ignoreErrorStream;
         private IRetryStrategy _retryStrategy;
-        private readonly object[] _arguments;
+        private readonly object[] _arguments = new object[0];
         private string _name;
         private ScriptBlock _action;
 

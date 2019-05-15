@@ -69,19 +69,24 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\AddChapterCmdlet.cs" />
+    <Compile Include="Cmdlets\AddChaptersCmdlet.cs" />
+    <Compile Include="Cmdlets\AddSectionsCmdlet.cs" />
+    <Compile Include="Cmdlets\AddSectionCmdlet.cs" />
     <Compile Include="Cmdlets\DelayRetryStrategyCmdlet.cs" />
     <Compile Include="Cmdlets\ImmediateRetryStrategyCmdlet.cs" />
     <Compile Include="Cmdlets\IncrementalDelayRetryStrategyCmdlet.cs" />
+    <Compile Include="Cmdlets\WriteReportCmdlet.cs" />
+    <Compile Include="Cmdlets\StartRunbookCmdlet.cs" />
     <Compile Include="Constants\ContainerConstants.cs" />
-    <Compile Include="Dtos\AzureConfigurationDto.cs" />
     <Compile Include="Dtos\PsStatusDto.cs" />
-    <Compile Include="Cmdlets\AzureConfigurationCmdlet.cs" />
     <Compile Include="Cmdlets\BufferSectionCmdlet.cs" />
     <Compile Include="Cmdlets\WindowSectionCmdlet.cs" />
     <Compile Include="Cmdlets\ChapterCmdlet.cs" />
     <Compile Include="Cmdlets\ParallelSectionCmdlet.cs" />
     <Compile Include="Cmdlets\RunbookCmdlet.cs" />
     <Compile Include="Cmdlets\SequenceSectionCmdlet.cs" />
+    <Compile Include="Dtos\ReportDto.cs" />
     <Compile Include="Factories\BufferSectionFactory.cs" />
     <Compile Include="Factories\ChapterFactory.cs" />
     <Compile Include="Factories\IBufferSectionFactory.cs" />

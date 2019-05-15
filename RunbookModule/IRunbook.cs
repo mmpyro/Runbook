@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using RunbookModule.Dtos;
 using RunbookModule.Sections;
 
 namespace RunbookModule
 {
-  public interface IRunbook
+    public interface IRunbook
   {
     string Name { get; set; }
     List<ISection> Sections { get; }
@@ -12,7 +13,7 @@ namespace RunbookModule
     void AddRange(IEnumerable<ISection> sections);
     bool HasSuccessStatusCode();
     void Invoke();
-    string OverallReport();
+    ReportDto OverallReport();
     void Remove(ISection section);
   }
 }

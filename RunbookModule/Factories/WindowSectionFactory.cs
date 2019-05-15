@@ -1,10 +1,8 @@
-﻿using RunbookModule.Providers;
-using RunbookModule.Sections;
-using RunbookModule.Wrappers;
+﻿using RunbookModule.Sections;
 
 namespace RunbookModule.Factories
 {
-  public class WindowSectionFactory : IWindowSectionFactory
+    public class WindowSectionFactory : IWindowSectionFactory
   {
     public ISection Create(string sectionName, int bufferSize)
     {

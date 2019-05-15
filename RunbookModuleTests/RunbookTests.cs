@@ -7,6 +7,7 @@ using RunbookModule.Sections;
 using RunbookModule.Validators;
 using RunbookModule.Wrappers;
 using RunbookModule.Loggers;
+using System.Collections.Generic;
 
 namespace RunbookModuleTests
 {
@@ -40,61 +41,61 @@ namespace RunbookModuleTests
             //Arrange
             var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator());
             //Act - Assert
-            var ex = Assert.Throws<ArgumentException>(() => runBook.AddRange(new []{ new SequenceSection(""), null }));
+            var ex = Assert.Throws<ArgumentException>(() => runBook.AddRange(new[] { new SequenceSection(""), null }));
             Assert.That(ex.Message, Is.EqualTo(ErrorMessage));
         }
 
         [Test]
         public void ShouldThrowsArgumentExceptionWhenRemovedSectionIsNull()
         {
-      //Arrange
-      var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
-      {
-        Name = RunbookName
-      };
-      //Act - Assert
-      var ex = Assert.Throws<ArgumentException>(() => runBook.Remove(null));
+            //Arrange
+            var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
+            {
+                Name = RunbookName
+            };
+            //Act - Assert
+            var ex = Assert.Throws<ArgumentException>(() => runBook.Remove(null));
             Assert.That(ex.Message, Is.EqualTo(ErrorMessage));
         }
 
         [Test]
         public void ShouldThrowsArgumentExceptionWhenAddEmptySection()
         {
-      //Arrange
-      var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
-      {
-        Name = RunbookName
-      };
-      //Act - Assert
-      Assert.Throws<ArgumentException>(() => runBook.Add(new SequenceSection("")));
+            //Arrange
+            var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
+            {
+                Name = RunbookName
+            };
+            //Act - Assert
+            Assert.Throws<ArgumentException>(() => runBook.Add(new SequenceSection("")));
         }
 
         [Test]
         public void ShouldThrowsArgumentExceptionWhenAnySectionIsEmpty()
         {
-      //Arrange
-      var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
-      {
-        Name = RunbookName
-      };
-      //Act - Assert
-      Assert.Throws<ArgumentException>(() => runBook.AddRange( new []{ new SequenceSection("")}));
+            //Arrange
+            var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
+            {
+                Name = RunbookName
+            };
+            //Act - Assert
+            Assert.Throws<ArgumentException>(() => runBook.AddRange(new[] { new SequenceSection("") }));
         }
 
         [Test]
         public void ShouldInvokeSectionsUntilSectionFails()
         {
-      //Arrange
-      var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
-      {
-        Name = RunbookName
-      };
-      var section1 = Substitute.For<ISection>();
+            //Arrange
+            var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
+            {
+                Name = RunbookName
+            };
+            var section1 = Substitute.For<ISection>();
             section1.StatusCode.Returns(StatusCode.Fail);
             section1.Size.Returns(1);
             var section2 = Substitute.For<ISection>();
             section2.Size.Returns(1);
-            runBook.AddRange(new []{section1, section2});
+            runBook.AddRange(new[] { section1, section2 });
             //Act
             runBook.Invoke();
             //Assert
@@ -105,17 +106,19 @@ namespace RunbookModuleTests
         [Test]
         public void ShouldInvokeAllSections()
         {
-      //Arrange
-      var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
-      {
-        Name = RunbookName
-      };
-      var section1 = Substitute.For<ISection>();
+            //Arrange
+            var runBook = new Runbook(Substitute.For<ILogger>(), new ReportCreator(), new SectionValidator())
+            {
+                Name = RunbookName
+            };
+            var section1 = Substitute.For<ISection>();
+            section1.ChaptersExecutionInfos.Returns(_ => new List<ChapterExecutionInfo>());
             section1.Invoke().Returns(StatusCode.Success);
             section1.StatusCode.Returns(StatusCode.Success);
             section1.Size.Returns(1);
             section1.SectionName.Returns("section1");
             var section2 = Substitute.For<ISection>();
+            section2.ChaptersExecutionInfos.Returns(_ => new List<ChapterExecutionInfo>());
             section2.Invoke().Returns(StatusCode.Success);
             section2.StatusCode.Returns(StatusCode.Success);
             section2.SectionName.Returns("section2");
@@ -123,9 +126,11 @@ namespace RunbookModuleTests
             runBook.AddRange(new[] { section1, section2 });
             //Act
             runBook.Invoke();
+            var report = runBook.OverallReport();
             //Assert
             section1.Received(1).Invoke();
             section2.Received(1).Invoke();
+            Assert.NotNull(report);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using RunbookModule.Loggers;
 using RunbookModule.Report;
 
 namespace RunbookModule.Sections

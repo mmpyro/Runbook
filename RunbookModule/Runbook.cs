@@ -10,11 +10,12 @@ using RunbookModule.Validators;
 using RunbookModule.Providers;
 using RunbookModule.Constants;
 using Ninject;
+using RunbookModule.Dtos;
 
 namespace RunbookModule
 {
     public class Runbook : IRunbook
-  {
+    {
         private readonly ILogger _logger;
         private readonly IReportCreator _reportCreator;
         private readonly ISectionValidator _sectionValidator;
@@ -23,7 +24,7 @@ namespace RunbookModule
 
         public string Name { get; set; }
 
-        public Runbook( [Named(ContainerConstants.CompositeLogger)] ILogger logger, IReportCreator reportCreator, ISectionValidator sectionValidator)
+        public Runbook([Named(ContainerConstants.LiveLogger)] ILogger logger, IReportCreator reportCreator, ISectionValidator sectionValidator)
         {
             _logger = logger;
             _reportCreator = reportCreator;
@@ -32,7 +33,6 @@ namespace RunbookModule
         }
 
         public List<ISection> Sections { get; }
-
 
         public void Add(ISection section)
         {
@@ -75,26 +75,26 @@ namespace RunbookModule
             Loggingloop(task);
         }
 
-    private static void Loggingloop(Task task)
-    {
-      var liveLogger = ContainerProvider.Resolve<ILogger>(ContainerConstants.LiveLogger) as LiveLogger;
-      do
-      {
-        WriteLogToConsole(liveLogger);
-        Thread.Sleep(TimeSpan.FromSeconds(.5));
-      } while (!task.IsCompleted && !task.IsFaulted);
-      Thread.Sleep(TimeSpan.FromSeconds(1));
-      WriteLogToConsole(liveLogger);
-    }
-
-    private static void WriteLogToConsole(LiveLogger liveLogger)
-    {
-        liveLogger?.WriteLogToConsole();
-    }
-
-    public string OverallReport()
+        private static void Loggingloop(Task task)
         {
-            return _reportCreator.CreateReport(this, _sw.Elapsed.TotalSeconds);
+            var liveLogger = ContainerProvider.Resolve<ILogger>(ContainerConstants.LiveLogger) as LiveLogger;
+            do
+            {
+                WriteLogToConsole(liveLogger);
+                Thread.Sleep(TimeSpan.FromSeconds(.5));
+            } while (!task.IsCompleted && !task.IsFaulted);
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            WriteLogToConsole(liveLogger);
+        }
+
+        private static void WriteLogToConsole(LiveLogger liveLogger)
+        {
+            liveLogger?.WriteLogToConsole();
+        }
+
+        public ReportDto OverallReport()
+        {
+            return _reportCreator.CreateReport(this, _sw.Elapsed);
         }
 
         public bool HasSuccessStatusCode()
