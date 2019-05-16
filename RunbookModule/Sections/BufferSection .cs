@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RunbookModule.Loggers;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace RunbookModule.Sections
         _bufferSize = bufferSize;
       }
 
-      public override StatusCode Invoke()
+      public override StatusCode Invoke(ILogger logger)
       {
         Sw.Reset();
         Sw.Start();
@@ -25,7 +26,7 @@ namespace RunbookModule.Sections
           var job = Task.Run(() =>
           {
             semaphore.WaitOne();
-            var report = chapter.Run(SectionName);
+            var report = chapter.Invoke(SectionName, logger);
             lock (Locker)
             {
               ChaptersExecutionInfos.Add(report);

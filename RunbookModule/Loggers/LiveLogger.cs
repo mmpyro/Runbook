@@ -45,10 +45,5 @@ namespace RunbookModule.Loggers
     {
       Enqueue(msg);
     }
-
-    public void SetLoggerName(string name)
-    {
-      //do nothing
-    }
   }
 }

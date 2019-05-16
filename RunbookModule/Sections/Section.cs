@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using RunbookModule.Loggers;
 using RunbookModule.Report;
 
 namespace RunbookModule.Sections
@@ -57,7 +58,7 @@ namespace RunbookModule.Sections
 
         public string SectionName { get;  protected set; }
 
-        public abstract StatusCode Invoke();
+        public abstract StatusCode Invoke(ILogger logger);
 
         public double OverallExecutionSeconds => Sw.Elapsed.TotalSeconds;
 

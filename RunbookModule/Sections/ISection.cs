@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RunbookModule.Loggers;
 using RunbookModule.Report;
 
 namespace RunbookModule.Sections
@@ -11,7 +12,7 @@ namespace RunbookModule.Sections
         int Size { get; }
         string SectionName { get; }
         StatusCode StatusCode { get; }
-        StatusCode Invoke();
+        StatusCode Invoke(ILogger logger);
         double OverallExecutionSeconds { get; }
         List<ChapterExecutionInfo> ChaptersExecutionInfos { get; }
     }

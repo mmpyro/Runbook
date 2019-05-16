@@ -1,4 +1,5 @@
-﻿using RunbookModule.Sections;
+﻿using RunbookModule.Constants;
+using RunbookModule.Sections;
 using System;
 using System.Management.Automation;
 
@@ -7,18 +8,17 @@ namespace RunbookModule.Cmdlets
     [Cmdlet(VerbsCommon.Add, "Section")]
     public class AddSectionCmdlet : Cmdlet
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Runbook object")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = HelpMessages.RunbookObjectMessage)]
         public IRunbook Runbook { get; set; }
 
-        [Parameter(Mandatory = true, Position = 1, HelpMessage = "Section object")]
+        [Parameter(Mandatory = true, Position = 1, HelpMessage = HelpMessages.SectionObjectMessage)]
         public ISection Section { get; set; }
 
         protected override void ProcessRecord()
         {
-            Validate(Section, "Section cannot be null");
-            Validate(Runbook, "Runbook cannot be null");
+            Validate(Section, ErrorMessages.SectionNullErrorMessage);
+            Validate(Runbook, ErrorMessages.RunbookNullErrorMessage);
             Runbook.Add(Section);
-            WriteObject(Runbook);
         }
 
         private void Validate(object obj, string message)

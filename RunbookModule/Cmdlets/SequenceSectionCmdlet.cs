@@ -2,13 +2,14 @@
 using System.Management.Automation;
 using RunbookModule.Providers;
 using RunbookModule.Factories;
+using RunbookModule.Constants;
 
 namespace RunbookModule.Cmdlets
 {
     [Cmdlet(VerbsCommon.New, "SequenceSection")]
     public class SequenceSectionCmdlet : Cmdlet
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Name of section")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = HelpMessages.SectionNameMessage)]
         public string SectionName { get; set; }
 
         protected override void ProcessRecord()
@@ -22,7 +23,7 @@ namespace RunbookModule.Cmdlets
         {
             if (string.IsNullOrEmpty(SectionName))
             {
-                throw new ArgumentException("SectionName cannot be null or empty");
+                throw new ArgumentException(ErrorMessages.NullSectionNameErrorMessage);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RunbookModule.Loggers;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RunbookModule.Sections
@@ -11,7 +12,7 @@ namespace RunbookModule.Sections
         public ParallelSection(string sectionName) : base(sectionName)
         { }
 
-        public override StatusCode Invoke()
+        public override StatusCode Invoke(ILogger logger)
         {
             Sw.Reset();
             Sw.Start();
@@ -19,7 +20,7 @@ namespace RunbookModule.Sections
                 {
                     var job = Task.Run(() =>
                     {
-                        var report = chapter.Run(SectionName);
+                        var report = chapter.Invoke(SectionName, logger);
                         lock (Locker)
                         {
                             ChaptersExecutionInfos.Add(report);

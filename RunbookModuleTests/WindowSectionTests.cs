@@ -31,9 +31,9 @@ namespace RunbookModuleTests
             //Arrange
             var section = new WindowSection("", 2);
             _psWrapper.HadErrors.Returns(x => false, x => false, x => false);
-            section.AddRange(new []{new Chapter("1", CreateScriptBlock(), _factory, _logger),new Chapter("2", CreateScriptBlock(), _factory, _logger), new Chapter("3", CreateScriptBlock(), _factory, _logger) });
+            section.AddRange(new []{new Chapter("1", CreateScriptBlock(), _factory),new Chapter("2", CreateScriptBlock(), _factory), new Chapter("3", CreateScriptBlock(), _factory) });
             //Act
-            var statusCode = section.Invoke();
+            var statusCode = section.Invoke(_logger);
             //Assert
             Assert.That(statusCode, Is.EqualTo(StatusCode.Success));
         }
@@ -44,9 +44,9 @@ namespace RunbookModuleTests
             //Arrange
             var section = new WindowSection("", 2);
             _psWrapper.HadErrors.Returns(x => false, x => true, x=> false);
-            section.AddRange(new[] { new Chapter("1", CreateScriptBlock(), _factory, _logger), new Chapter("2", CreateScriptBlock(), _factory, _logger), new Chapter("3", CreateScriptBlock(), _factory, _logger)});
+            section.AddRange(new[] { new Chapter("1", CreateScriptBlock(), _factory), new Chapter("2", CreateScriptBlock(), _factory), new Chapter("3", CreateScriptBlock(), _factory)});
             //Act
-            var statusCode = section.Invoke();
+            var statusCode = section.Invoke(_logger);
             //Assert
             _psWrapper.Received(3).Invoke();
             section.ChaptersExecutionInfos.ForEach(ch => Assert.That(ch.Retries, Is.EqualTo(1)));

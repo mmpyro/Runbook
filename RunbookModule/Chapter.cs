@@ -15,14 +15,13 @@ namespace RunbookModule
     {
         void SetNumberOfRetries(uint numberOfRetries);
         void SetRetryStrategy(IRetryStrategy retryStrategy);
-        ChapterExecutionInfo Run(string sectionName);
+        ChapterExecutionInfo Invoke(string sectionName, ILogger logger);
         string Name { get; }
     }
 
     public class Chapter : IChapter
     {
         private readonly IPsWrapperFactory _factory;
-        private readonly ILogger _logger;
         private int iteration = 0;
         private uint _numberOfRetries;
         private readonly bool _ignoreErrorStream;
@@ -33,32 +32,31 @@ namespace RunbookModule
 
         public string Name => _name;
 
-        public Chapter(string name, object[] arguments, ScriptBlock action, IPsWrapperFactory factory, ILogger logger, bool ignoreErrorStream = false) 
-            :this(name, action, factory, logger, ignoreErrorStream)
+        public Chapter(string name, object[] arguments, ScriptBlock action, IPsWrapperFactory factory, bool ignoreErrorStream = false) 
+            :this(name, action, factory, ignoreErrorStream)
         {
             _arguments = arguments;
         }
 
-        public Chapter(string name, object[] arguments, ScriptBlock action, IPsWrapperFactory factory, IRetryStrategy retryStrategy, ILogger logger, bool ignoreErrorStream = false) 
-            :this(name, arguments, action, factory, logger, ignoreErrorStream)
+        public Chapter(string name, object[] arguments, ScriptBlock action, IPsWrapperFactory factory, IRetryStrategy retryStrategy, bool ignoreErrorStream = false) 
+            :this(name, arguments, action, factory, ignoreErrorStream)
         {
             _retryStrategy = retryStrategy;
         }
 
-        public Chapter(string name, ScriptBlock action, IPsWrapperFactory factory, IRetryStrategy retryStrategy, ILogger logger, bool ignoreErrorStream = false)
-             :this(name, action, factory, logger, ignoreErrorStream)
+        public Chapter(string name, ScriptBlock action, IPsWrapperFactory factory, IRetryStrategy retryStrategy, bool ignoreErrorStream = false)
+             :this(name, action, factory, ignoreErrorStream)
         {
             _retryStrategy = retryStrategy;
         }
 
-        public Chapter(string name, ScriptBlock action, IPsWrapperFactory factory, ILogger logger, bool ignoreErrorStream = false)
+        public Chapter(string name, ScriptBlock action, IPsWrapperFactory factory, bool ignoreErrorStream = false)
         {
             _name = name;
             _action = action;
             _numberOfRetries = 0;
             _ignoreErrorStream = ignoreErrorStream;
             _factory = factory;
-            _logger = logger;
             if(_retryStrategy == null)
             {
                 _retryStrategy = RetryStrategy.Immediate;
@@ -81,7 +79,7 @@ namespace RunbookModule
             return _name.GetHashCode();
         }
 
-        public ChapterExecutionInfo Run(string sectionName)
+        public ChapterExecutionInfo Invoke(string sectionName, ILogger logger)
         {
             var chapetrStopWatch = new Stopwatch();
             chapetrStopWatch.Start();
@@ -97,7 +95,7 @@ namespace RunbookModule
                         ps.AddScript(_action.ToString(), false);
                         ps.AddParameters(_arguments);
                         ps.ClearStreams();
-                        ps.SetLogger(_logger, sectionName, _name);
+                        ps.SetLogger(logger, sectionName, _name);
                         ps.Invoke();
                     }
                     catch (Exception ex)

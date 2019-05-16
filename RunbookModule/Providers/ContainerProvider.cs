@@ -10,7 +10,7 @@ namespace RunbookModule.Providers
 {
     public static class ContainerProvider
     {
-        static IKernel _kernel;
+        private static IKernel _kernel;
 
         static ContainerProvider()
         {
@@ -23,10 +23,10 @@ namespace RunbookModule.Providers
             _kernel.Bind<ISequenceSectionFactory>().To<SequenceSectionFactory>().InSingletonScope();
             _kernel.Bind<IBufferSectionFactory>().To<BufferSectionFactory>().InSingletonScope();
             _kernel.Bind<IWindowSectionFactory>().To<WindowSectionFactory>().InSingletonScope();
+            _kernel.Bind<IComposeLoggerFactory>().To<ComposeLoggerFactory>().InTransientScope();
+            _kernel.Bind<IFileLoggerFactory>().To<FileLoggerFactory>().InTransientScope();
             _kernel.Bind<IRunbook>().To<Runbook>().InTransientScope();
             _kernel.Bind<ILogger>().To<LiveLogger>().InSingletonScope().Named(ContainerConstants.LiveLogger);
-            _kernel.Bind<ILogger>().To<FileFileLogger>().InSingletonScope().Named(ContainerConstants.FileLogger);
-            _kernel.Bind<ILogger>().To<LoggerComposer>().InSingletonScope().Named(ContainerConstants.CompositeLogger);
         }
 
         public static IKernel Container => _kernel;

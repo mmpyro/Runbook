@@ -7,7 +7,7 @@ namespace RunbookModule.Helpers
         public static string CurrentDateString()
         {
             var dt = DateTime.Now;
-            return $"{dt.Day}_{dt.Month}_{dt.Year}_{dt.Hour}_{dt.Minute}_{dt.Second}";
+            return $"[{dt.Day}-{dt.Month}-{dt.Year}_{dt.Hour}:{dt.Minute}:{dt.Second}]";
         }
     }
 }

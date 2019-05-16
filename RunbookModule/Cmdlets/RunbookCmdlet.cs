@@ -1,4 +1,5 @@
 ﻿using System.Management.Automation;
+using RunbookModule.Constants;
 using RunbookModule.Providers;
 
 namespace RunbookModule.Cmdlets
@@ -6,7 +7,7 @@ namespace RunbookModule.Cmdlets
     [Cmdlet(VerbsCommon.New, "Runbook")]
     public class RunbookCmdlet : Cmdlet
     {
-        [Parameter(Mandatory = true, Position = 0, HelpMessage = "Name of section")]
+        [Parameter(Mandatory = true, Position = 0, HelpMessage = HelpMessages.RunbookNameMessage)]
         public string RunbookName { get; set; }
 
         protected override void ProcessRecord()

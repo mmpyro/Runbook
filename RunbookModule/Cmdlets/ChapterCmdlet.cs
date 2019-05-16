@@ -1,4 +1,5 @@
-﻿using RunbookModule.Factories;
+﻿using RunbookModule.Constants;
+using RunbookModule.Factories;
 using RunbookModule.Providers;
 using RunbookModule.RetriesStrategies;
 using System;
@@ -62,16 +63,16 @@ namespace RunbookModule.Cmdlets
         {
             if (string.IsNullOrEmpty(Name))
             {
-                throw new ArgumentException("Name cannot be null or empty");
+                throw new ArgumentException(ErrorMessages.InvalidNameErrorMessage);
             }
 
             if (Action == null)
             {
-                throw new ArgumentException("Action cannot be null");
+                throw new ArgumentException(ErrorMessages.InvalidActionErrorMessage);
             }
             if (NumberOfRetries < 1)
             {
-                throw  new ArgumentException("NumberOfRetires cannot be lower than 1");
+                throw  new ArgumentException(ErrorMessages.InvalidNumberOfRetriesErrorMessage);
             }
         }
     }

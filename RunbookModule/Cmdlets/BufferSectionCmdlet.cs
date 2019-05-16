@@ -2,16 +2,17 @@
 using System.Management.Automation;
 using RunbookModule.Providers;
 using RunbookModule.Factories;
+using RunbookModule.Constants;
 
 namespace RunbookModule.Cmdlets
 {
   [Cmdlet(VerbsCommon.New, "BufferSection")]
   public class BufferSectionCmdlet : Cmdlet
   {
-    [Parameter(Mandatory = true, Position = 0, HelpMessage = "Name of section")]
+    [Parameter(Mandatory = true, Position = 0, HelpMessage = HelpMessages.SectionNameMessage)]
     public string SectionName { get; set; }
 
-    [Parameter(Mandatory = true, Position = 1, HelpMessage = "Size of buffer window")]
+    [Parameter(Mandatory = true, Position = 1, HelpMessage = HelpMessages.BufferSizeMessage)]
     public int BufferSize { get; set; }
 
     protected override void ProcessRecord()
@@ -25,11 +26,11 @@ namespace RunbookModule.Cmdlets
     {
       if (string.IsNullOrEmpty(SectionName))
       {
-        throw new ArgumentException("SectionName cannot be null or empty");
+        throw new ArgumentException(ErrorMessages.NullSectionNameErrorMessage);
       }
       if (BufferSize < 1)
       {
-        throw new ArgumentException("BufferSize cannot be lower than 1");
+        throw new ArgumentException(ErrorMessages.InvalidBufferSizeErrorMessage);
       }
     }
   }

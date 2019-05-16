@@ -9,14 +9,12 @@ using RunbookModule.Sections;
 using RunbookModule.Validators;
 using RunbookModule.Providers;
 using RunbookModule.Constants;
-using Ninject;
 using RunbookModule.Dtos;
 
 namespace RunbookModule
 {
     public class Runbook : IRunbook
     {
-        private readonly ILogger _logger;
         private readonly IReportCreator _reportCreator;
         private readonly ISectionValidator _sectionValidator;
         private readonly Stopwatch _sw = new Stopwatch();
@@ -24,9 +22,8 @@ namespace RunbookModule
 
         public string Name { get; set; }
 
-        public Runbook([Named(ContainerConstants.LiveLogger)] ILogger logger, IReportCreator reportCreator, ISectionValidator sectionValidator)
+        public Runbook(IReportCreator reportCreator, ISectionValidator sectionValidator)
         {
-            _logger = logger;
             _reportCreator = reportCreator;
             _sectionValidator = sectionValidator;
             Sections = new List<ISection>();
@@ -52,17 +49,16 @@ namespace RunbookModule
             Sections.Remove(section);
         }
 
-        public void Invoke()
+        public void Invoke(ILogger logger)
         {
-            _logger.SetLoggerName(Name);
             var task = Task.Run(() =>
             {
                 _sw.Reset();
                 _sw.Start();
                 foreach (var section in Sections)
                 {
-                    _logger.Log($"Execute: {section.SectionName}");
-                    var statusCode = section.Invoke();
+                    logger.Log($"Execute: {section.SectionName}");
+                    var statusCode = section.Invoke(logger);
                     if (statusCode == StatusCode.Fail)
                     {
                         _isSuccessStatus = false;

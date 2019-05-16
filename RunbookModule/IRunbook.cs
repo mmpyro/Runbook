@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using RunbookModule.Dtos;
+using RunbookModule.Loggers;
 using RunbookModule.Sections;
 
 namespace RunbookModule
@@ -12,7 +13,7 @@ namespace RunbookModule
     void Add(ISection section);
     void AddRange(IEnumerable<ISection> sections);
     bool HasSuccessStatusCode();
-    void Invoke();
+    void Invoke(ILogger logger);
     ReportDto OverallReport();
     void Remove(ISection section);
   }

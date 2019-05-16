@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RunbookModule.Loggers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
@@ -18,7 +19,7 @@ namespace RunbookModule.Sections
         }
 
 
-        public override StatusCode Invoke()
+        public override StatusCode Invoke(ILogger logger)
         {
             Sw.Reset();
             Sw.Start();
@@ -28,7 +29,7 @@ namespace RunbookModule.Sections
                 {
                     var job = Task.Run(() =>
                     {
-                        var report = chapter.Run(SectionName);
+                        var report = chapter.Invoke(SectionName, logger);
                         lock (Locker)
                         {
                             ChaptersExecutionInfos.Add(report);
