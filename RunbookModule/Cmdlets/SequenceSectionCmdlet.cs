@@ -1,8 +1,8 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using RunbookModule.Providers;
 using RunbookModule.Factories;
 using RunbookModule.Constants;
+using RunbookModule.Validators;
 
 namespace RunbookModule.Cmdlets
 {
@@ -21,10 +21,9 @@ namespace RunbookModule.Cmdlets
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(SectionName))
-            {
-                throw new ArgumentException(ErrorMessages.NullSectionNameErrorMessage);
-            }
+            var propertyValidator = ContainerProvider.Resolve<IPropertyValidator>();
+            propertyValidator
+                .NotNullOrEmpty(SectionName, ErrorMessages.NullSectionNameErrorMessage);
         }
     }
 }

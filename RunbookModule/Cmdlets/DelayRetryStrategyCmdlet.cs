@@ -1,5 +1,7 @@
 ﻿using RunbookModule.Constants;
+using RunbookModule.Providers;
 using RunbookModule.RetriesStrategies;
+using RunbookModule.Validators;
 using System;
 using System.Management.Automation;
 
@@ -22,8 +24,19 @@ namespace RunbookModule.Cmdlets
 
         protected override void ProcessRecord()
         {
+            Validate();
             var delay = new TimeSpan(0, Hours, Minutes, Seconds, MilliSeconds);
             WriteObject(new DelayRetryStrategy(delay));
+        }
+
+        private void Validate()
+        {
+            var propertyValidator = ContainerProvider.Resolve<IPropertyValidator>();
+            propertyValidator
+                .GreaterOrEqualZero(MilliSeconds, $"{nameof(MilliSeconds)} has to be greater or equal zero")
+                .GreaterOrEqualZero(Seconds, $"{nameof(Seconds)} has to be greater or equal zero")
+                .GreaterOrEqualZero(Minutes, $"{nameof(Minutes)} has to be greater or equal zero")
+                .GreaterOrEqualZero(Hours, $"{nameof(Hours)} has to be greater or equal zero");
         }
     }
 }

@@ -12,9 +12,8 @@ namespace RunbookModule
 
     void Add(ISection section);
     void AddRange(IEnumerable<ISection> sections);
-    bool HasSuccessStatusCode();
+    bool HasSuccessStatusCode { get; }
     void Invoke(ILogger logger);
     ReportDto OverallReport();
-    void Remove(ISection section);
   }
 }

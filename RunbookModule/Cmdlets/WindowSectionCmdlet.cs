@@ -1,12 +1,12 @@
-﻿using System;
-using System.Management.Automation;
+﻿using System.Management.Automation;
 using RunbookModule.Providers;
 using RunbookModule.Factories;
 using RunbookModule.Constants;
+using RunbookModule.Validators;
 
 namespace RunbookModule.Cmdlets
 {
-  [Cmdlet(VerbsCommon.New, "WindowSection")]
+    [Cmdlet(VerbsCommon.New, "WindowSection")]
     public class WindowSectionCmdlet : Cmdlet
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = HelpMessages.SectionNameMessage)]
@@ -24,14 +24,10 @@ namespace RunbookModule.Cmdlets
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(SectionName))
-            {
-                throw new ArgumentException(ErrorMessages.NullSectionNameErrorMessage);
-            }
-            if (BufferSize < 1)
-            {
-                throw new ArgumentException(ErrorMessages.InvalidBufferSizeErrorMessage);
-            }
+            var propertyValidator = ContainerProvider.Resolve<IPropertyValidator>();
+            propertyValidator
+                     .NotNullOrEmpty(SectionName, ErrorMessages.NullSectionNameErrorMessage)
+                     .GreaterThanOne(BufferSize, ErrorMessages.InvalidBufferSizeErrorMessage);
         }
     }
 }

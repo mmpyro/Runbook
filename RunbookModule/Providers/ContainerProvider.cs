@@ -27,6 +27,7 @@ namespace RunbookModule.Providers
             _kernel.Bind<IFileLoggerFactory>().To<FileLoggerFactory>().InTransientScope();
             _kernel.Bind<IRunbook>().To<Runbook>().InTransientScope();
             _kernel.Bind<ILogger>().To<LiveLogger>().InSingletonScope().Named(ContainerConstants.LiveLogger);
+            _kernel.Bind<IPropertyValidator>().To<PropertyValidator>().InTransientScope();
         }
 
         public static IKernel Container => _kernel;

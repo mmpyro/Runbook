@@ -2,7 +2,7 @@
 using RunbookModule.Factories;
 using RunbookModule.Providers;
 using RunbookModule.RetriesStrategies;
-using System;
+using RunbookModule.Validators;
 using System.Management.Automation;
 
 namespace RunbookModule.Cmdlets
@@ -20,7 +20,7 @@ namespace RunbookModule.Cmdlets
         public ScriptBlock Action { get; set; }
 
         [Parameter(HelpMessage = "Number of retires when chapter executions fails")]
-        public uint NumberOfRetries { get; set; } = 1;
+        public int NumberOfRetries { get; set; } = 1;
 
         [Parameter(HelpMessage = "If true error stream will be ignore when checking completion status")]
         public SwitchParameter IgnoreErrorStream { get; set; }
@@ -61,19 +61,11 @@ namespace RunbookModule.Cmdlets
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Name))
-            {
-                throw new ArgumentException(ErrorMessages.InvalidNameErrorMessage);
-            }
-
-            if (Action == null)
-            {
-                throw new ArgumentException(ErrorMessages.InvalidActionErrorMessage);
-            }
-            if (NumberOfRetries < 1)
-            {
-                throw  new ArgumentException(ErrorMessages.InvalidNumberOfRetriesErrorMessage);
-            }
+            var propertyValidator = ContainerProvider.Resolve<IPropertyValidator>();
+            propertyValidator
+                     .NotNullOrEmpty(Name, ErrorMessages.NullChapterNameErrorMessage)
+                     .NotNull(Action, ErrorMessages.InvalidActionErrorMessage)
+                     .GreaterThanZero(NumberOfRetries, ErrorMessages.InvalidNumberOfRetriesErrorMessage);
         }
     }
 }

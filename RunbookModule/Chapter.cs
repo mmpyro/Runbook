@@ -13,7 +13,7 @@ namespace RunbookModule
 {
     public interface IChapter
     {
-        void SetNumberOfRetries(uint numberOfRetries);
+        void SetNumberOfRetries(int numberOfRetries);
         void SetRetryStrategy(IRetryStrategy retryStrategy);
         ChapterExecutionInfo Invoke(string sectionName, ILogger logger);
         string Name { get; }
@@ -23,7 +23,7 @@ namespace RunbookModule
     {
         private readonly IPsWrapperFactory _factory;
         private int iteration = 0;
-        private uint _numberOfRetries;
+        private int _numberOfRetries;
         private readonly bool _ignoreErrorStream;
         private IRetryStrategy _retryStrategy;
         private readonly object[] _arguments = new object[0];
@@ -63,7 +63,7 @@ namespace RunbookModule
             }
         }
 
-        public void SetNumberOfRetries(uint numberOfRetries)
+        public void SetNumberOfRetries(int numberOfRetries)
         {
             _numberOfRetries = numberOfRetries;
         }

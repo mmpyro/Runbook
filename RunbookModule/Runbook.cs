@@ -33,20 +33,14 @@ namespace RunbookModule
 
         public void Add(ISection section)
         {
-            _sectionValidator.Validate(section);
+            _sectionValidator.Validate(Sections, section);
             Sections.Add(section);
         }
 
         public void AddRange(IEnumerable<ISection> sections)
         {
-            _sectionValidator.Validate(sections);
+            _sectionValidator.Validate(Sections, sections);
             Sections.AddRange(sections);
-        }
-
-        public void Remove(ISection section)
-        {
-            _sectionValidator.Validate(section);
-            Sections.Remove(section);
         }
 
         public void Invoke(ILogger logger)
@@ -71,6 +65,13 @@ namespace RunbookModule
             Loggingloop(task);
         }
 
+        public ReportDto OverallReport()
+        {
+            return _reportCreator.CreateReport(this, _sw.Elapsed);
+        }
+
+        public bool HasSuccessStatusCode => _isSuccessStatus;
+
         private static void Loggingloop(Task task)
         {
             var liveLogger = ContainerProvider.Resolve<ILogger>(ContainerConstants.LiveLogger) as LiveLogger;
@@ -86,16 +87,6 @@ namespace RunbookModule
         private static void WriteLogToConsole(LiveLogger liveLogger)
         {
             liveLogger?.WriteLogToConsole();
-        }
-
-        public ReportDto OverallReport()
-        {
-            return _reportCreator.CreateReport(this, _sw.Elapsed);
-        }
-
-        public bool HasSuccessStatusCode()
-        {
-            return _isSuccessStatus;
         }
     }
 }

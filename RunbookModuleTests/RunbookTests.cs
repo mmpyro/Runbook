@@ -8,6 +8,7 @@ using RunbookModule.Validators;
 using RunbookModule.Wrappers;
 using RunbookModule.Loggers;
 using System.Collections.Generic;
+using RunbookModule.Constants;
 
 namespace RunbookModuleTests
 {
@@ -15,7 +16,6 @@ namespace RunbookModuleTests
     [Parallelizable(ParallelScope.Fixtures)]
     public class RunbookTests
     {
-        private const string ErrorMessage = "Section cannot be null or empty";
         private const string RunbookName = "wusa";
         private ILogger _logger;
         private IPsWrapperFactory _factory;
@@ -35,7 +35,7 @@ namespace RunbookModuleTests
             var runBook = new Runbook(new ReportCreator(), new SectionValidator());
             //Act - Assert
             var ex = Assert.Throws<ArgumentException>(() => runBook.Add(null));
-            Assert.That(ex.Message, Is.EqualTo(ErrorMessage));
+            Assert.That(ex.Message, Is.EqualTo(ErrorMessages.SectionNullErrorMessage));
         }
 
         [Test]
@@ -45,21 +45,9 @@ namespace RunbookModuleTests
             var runBook = new Runbook(new ReportCreator(), new SectionValidator());
             //Act - Assert
             var ex = Assert.Throws<ArgumentException>(() => runBook.AddRange(new[] { new SequenceSection(""), null }));
-            Assert.That(ex.Message, Is.EqualTo(ErrorMessage));
+            Assert.That(ex.Message, Is.EqualTo(ErrorMessages.SectionNullErrorMessage));
         }
 
-        [Test]
-        public void ShouldThrowsArgumentExceptionWhenRemovedSectionIsNull()
-        {
-            //Arrange
-            var runBook = new Runbook(new ReportCreator(), new SectionValidator())
-            {
-                Name = RunbookName
-            };
-            //Act - Assert
-            var ex = Assert.Throws<ArgumentException>(() => runBook.Remove(null));
-            Assert.That(ex.Message, Is.EqualTo(ErrorMessage));
-        }
 
         [Test]
         public void ShouldThrowsArgumentExceptionWhenAddEmptySection()

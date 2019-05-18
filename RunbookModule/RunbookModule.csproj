@@ -76,6 +76,7 @@
     <Compile Include="Cmdlets\DelayRetryStrategyCmdlet.cs" />
     <Compile Include="Cmdlets\ImmediateRetryStrategyCmdlet.cs" />
     <Compile Include="Cmdlets\IncrementalDelayRetryStrategyCmdlet.cs" />
+    <Compile Include="Cmdlets\GetRunbookExecutionTimeCmdlet.cs" />
     <Compile Include="Cmdlets\WriteReportCmdlet.cs" />
     <Compile Include="Cmdlets\StartRunbookCmdlet.cs" />
     <Compile Include="Constants\ContainerConstants.cs" />
@@ -117,6 +118,8 @@
     <Compile Include="RetriesStrategies\IncrementalDelayRetryStrategy.cs" />
     <Compile Include="RetriesStrategies\IRetryStrategy.cs" />
     <Compile Include="RetriesStrategies\RetryStrategy.cs" />
+    <Compile Include="Validators\IPropertyValidator.cs" />
+    <Compile Include="Validators\PropertyValidator.cs" />
     <Compile Include="Wrappers\IPSWrapperFactory.cs" />
     <Compile Include="Wrappers\PsWrapper.cs" />
     <Compile Include="Reports\ChapterExecutionInfo.cs" />

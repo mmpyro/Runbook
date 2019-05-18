@@ -1,6 +1,7 @@
 ﻿using RunbookModule.Constants;
+using RunbookModule.Providers;
 using RunbookModule.Sections;
-using System;
+using RunbookModule.Validators;
 using System.Management.Automation;
 
 namespace RunbookModule.Cmdlets
@@ -17,20 +18,15 @@ namespace RunbookModule.Cmdlets
         protected override void ProcessRecord()
         {
             Validate();
-
             Section.AddRange(Chapters);
         }
 
         private void Validate()
         {
-            if (Section == null)
-            {
-                throw new ArgumentException(ErrorMessages.SectionNullErrorMessage);
-            }
-            if (Chapters == null)
-            {
-                throw new ArgumentException(ErrorMessages.ChapterNullErrorMessage);
-            }
+            var propertyValidator = ContainerProvider.Resolve<IPropertyValidator>();
+            propertyValidator
+                .NotNull(Section, ErrorMessages.SectionNullErrorMessage)
+                .NotNull(Chapters, ErrorMessages.ChaptersNullErrorMessage);
         }
     }
 }
