@@ -1,12 +1,22 @@
-﻿$configuration = 'Debug'
-$src = 'C:\Users\PLMIMAR2\Documents\projects\Runbook\RunbookModule'
-$dst = 'C:\Users\PLMIMAR2\Documents\projects\RunbookModule'
+﻿param(
+ [string] $Configuration = 'Debug',
+ [string] $Src,
+ [string] $Dst
+)
+
 $uri = 'https://github.com/mmpyro/Runbook'
-cd $dst
-Remove-Item -Path "$dst\*" -Recurse -Force
+$dotnetVersion = '4.6'
+$psVersion = '5.0'
+
+if( -not (Test-Path -Path $Dst))
+{
+    New-Item -Path $Dst -ItemType Directory
+}
+cd $Dst
+Remove-Item -Path "$Dst\*" -Recurse -Force
 
 $cmdlets = @()
-Get-ChildItem -Path "$src\Cmdlets" -Filter '*Cmdlet.cs'| % {
+Get-ChildItem -Path "$Src\Cmdlets" -Filter '*Cmdlet.cs'| % {
     Get-Content -Path $_.FullName|Select-String -Pattern '.*\[Cmdlet\(VerbsCommon.*'|% {
        $trimed = $_.ToString().Trim().Substring(20)
        $splited = $trimed.Remove($trimed.Length-2, 2).Replace('"','').Split(',')
@@ -21,6 +31,7 @@ Get-ChildItem -Path "$src\Cmdlets" -Filter '*Cmdlet.cs'| % {
 }
 
 
-Copy-Item -Path "$src\bin\$configuration\*" -Recurse
+Copy-Item -Path "$Src\bin\$Configuration\*" -Recurse
 
-New-ModuleManifest -Path "RunbookModule.psd1" -Author 'mmpyro' -RootModule "RunbookModule.dll" -CmdletsToExport $cmdlets -ProjectUri $uri
+New-ModuleManifest -Path "RunbookModule.psd1" -Author 'mmpyro' -RootModule "RunbookModule.dll" `
+ -CmdletsToExport $cmdlets -ProjectUri $uri -DotNetFrameworkVersion $dotnetVersion -PowerShellVersion $psVersion

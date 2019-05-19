@@ -83,8 +83,10 @@ namespace RunbookModuleTests
             };
             var section1 = Substitute.For<ISection>();
             section1.StatusCode.Returns(StatusCode.Fail);
+            section1.SectionName.Returns(nameof(section1));
             section1.Size.Returns(1);
             var section2 = Substitute.For<ISection>();
+            section2.SectionName.Returns(nameof(section2));
             section2.Size.Returns(1);
             runBook.AddRange(new[] { section1, section2 });
             //Act

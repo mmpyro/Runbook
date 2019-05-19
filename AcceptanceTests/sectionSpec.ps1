@@ -1,7 +1,4 @@
-﻿Import-Module 'C:\Users\PLMIMAR2\Documents\projects\RunbookModule\RunBookModule.psd1'
-Import-Module -Name Pester
-
-Describe 'Runbook with all sections types' {
+﻿Describe 'Runbook with all sections types' {
     It 'Sequence section should pass without errors' {
         #Given
         $result = $null

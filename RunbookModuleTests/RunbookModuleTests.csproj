@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BufferSectionTests.cs" />
+    <Compile Include="PropertyValidatorTests.cs" />
+    <Compile Include="SectionValidatorTests.cs" />
     <Compile Include="WindowSectionTests.cs" />
     <Compile Include="Helpers\ScriptBlockHelper.cs" />
     <Compile Include="ParallelSectionTest.cs" />

@@ -34,7 +34,7 @@ namespace RunbookModule.Validators
             }
             if(sections.GroupBy(t => t.SectionName).Any(g => g.Count() > 1))
             {
-                var collisionName = sections.GroupBy(t => t.SectionName).Where(g => g.Count() > 1).Select(g => g.Key);
+                var collisionName = string.Join(",", sections.GroupBy(t => t.SectionName).Where(g => g.Count() > 1).Select(g => g.Key));
                 throw new ArgumentException($"Sections {collisionName} are not unique inside runbook.");
             }
             if (runbookSections.Any(t => sections.Any(section => section.SectionName.Equals(t.SectionName, StringComparison.OrdinalIgnoreCase))))
