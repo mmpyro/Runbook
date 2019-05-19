@@ -7,6 +7,9 @@
 $uri = 'https://github.com/mmpyro/Runbook'
 $dotnetVersion = '4.6'
 $psVersion = '5.0'
+$description = @"
+Runbook is module which allows for composing tasks (called chapters) into four type of sections: Sequence,Buffer,Window and Parallel. This allow for running set of tasks and controlling it's execution.
+"@
 
 if( -not (Test-Path -Path $Dst))
 {
@@ -34,5 +37,5 @@ Get-ChildItem -Path "$Src\Cmdlets" -Filter '*Cmdlet.cs'| % {
 Copy-Item -Path "$Src\bin\$Configuration\*" -Recurse
 $assemblies = Get-ChildItem -Path $Dst -Filter "*.dll"|Select -ExpandProperty Name
 
-New-ModuleManifest -Path "Runbook.psd1" -Author 'mmpyro' -RootModule "RunbookModule.dll" `
+New-ModuleManifest -Path "Runbook.psd1" -Author 'mmpyro' -RootModule "RunbookModule.dll" -Description $description `
  -CmdletsToExport $cmdlets -ProjectUri $uri -DotNetFrameworkVersion $dotnetVersion -PowerShellVersion $psVersion -RequiredAssemblies $assemblies
