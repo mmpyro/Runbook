@@ -1,9 +1,9 @@
 ﻿param (
     [Parameter(Mandatory=$True)]
-    [string] $modulePath = 'C:\Users\PLMIMAR2\Documents\projects\RunbookModule\RunBookModule.psd1'
+    [string] $ModulePath
 )
 
-Import-Module $modulePath
+Import-Module $ModulePath
 Import-Module -Name Pester
 
 .\sectionSpec.ps1
