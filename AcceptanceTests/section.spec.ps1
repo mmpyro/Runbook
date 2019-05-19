@@ -1,4 +1,12 @@
-﻿Describe 'Runbook with all sections types' {
+﻿param (
+    [Parameter(Mandatory=$True)]
+    [string] $ModulePath
+)
+
+Import-Module $ModulePath
+Import-Module -Name Pester
+
+Describe 'Runbook with all sections types' {
     It 'Sequence section should pass without errors' {
         #Given
         $result = $null

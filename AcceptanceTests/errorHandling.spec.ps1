@@ -1,4 +1,12 @@
-﻿function TryCatch()
+﻿param (
+    [Parameter(Mandatory=$True)]
+    [string] $ModulePath
+)
+
+Import-Module $ModulePath
+Import-Module -Name Pester
+
+function TryCatch()
 {
     param(
         [ScriptBlock] $Action
