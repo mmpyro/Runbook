@@ -1,7 +1,8 @@
 ﻿param(
  [string] $Configuration = 'Debug',
  [string] $Src,
- [string] $Dst
+ [string] $Dst,
+ [string] $ModuleVersion = '1.0.0'
 )
 
 $uri = 'https://github.com/mmpyro/Runbook'
@@ -37,5 +38,5 @@ Get-ChildItem -Path "$Src\Cmdlets" -Filter '*Cmdlet.cs'| % {
 Copy-Item -Path "$Src\bin\$Configuration\*" -Recurse
 $assemblies = Get-ChildItem -Path $Dst -Filter "*.dll"|Select -ExpandProperty Name
 
-New-ModuleManifest -Path "Runbook.psd1" -Author 'mmpyro' -RootModule "RunbookModule.dll" -Description $description `
+New-ModuleManifest -Path "Runbook.psd1" -Author 'mmpyro' -RootModule "RunbookModule.dll" -Description $description -ModuleVersion $ModuleVersion `
  -CmdletsToExport $cmdlets -ProjectUri $uri -DotNetFrameworkVersion $dotnetVersion -PowerShellVersion $psVersion -RequiredAssemblies $assemblies
