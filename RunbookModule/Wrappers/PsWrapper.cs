@@ -44,26 +44,26 @@ namespace RunbookModule.Wrappers
                 StreamDataAdding(logger, sectionName, chapterName, e);
             };
 
-          _ps.Streams.Debug.DataAdding += (s, e) =>
-          {
-            StreamDataAdding(logger, sectionName, chapterName, e);
-          };
+            _ps.Streams.Debug.DataAdding += (s, e) =>
+            {
+                StreamDataAdding(logger, sectionName, chapterName, e);
+            };
 
-          _ps.Streams.Warning.DataAdding += (s, e) =>
-          {
-            StreamDataAdding(logger, sectionName, chapterName, e);
-          };
+            _ps.Streams.Warning.DataAdding += (s, e) =>
+            {
+                StreamDataAdding(logger, sectionName, chapterName, e);
+            };
 
-          _ps.Streams.Verbose.DataAdding += (s, e) =>
-          {
-            StreamDataAdding(logger, sectionName, chapterName, e);
-          };
+            _ps.Streams.Verbose.DataAdding += (s, e) =>
+            {
+                StreamDataAdding(logger, sectionName, chapterName, e);
+            };
 
-          _ps.Streams.Progress.DataAdding += (s, e) =>
-          {
-            StreamDataAdding(logger, sectionName, chapterName, e);
-          };
-    }
+            _ps.Streams.Progress.DataAdding += (s, e) =>
+            {
+                StreamDataAdding(logger, sectionName, chapterName, e);
+            };
+        }
 
         private static void StreamDataAdding(ILogger logger, string sectionName, string chapterName, DataAddingEventArgs e)
         {

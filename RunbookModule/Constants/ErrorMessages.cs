@@ -14,5 +14,6 @@
         public const string InvalidNameErrorMessage = "Name cannot be null or empty";
         public const string InvalidActionErrorMessage = "Action cannot be null";
         public const string InvalidNumberOfRetriesErrorMessage = "NumberOfRetires cannot be lower than 1";
+        public const string ScopeNullErrorMessage = "ScriptBlock cannot be null";
     }
 }

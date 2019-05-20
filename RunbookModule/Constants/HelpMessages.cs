@@ -15,5 +15,6 @@
         public const string DelaySecondsMessage = "delay in seconds";
         public const string DelayMinutesMessage = "delay in minutes";
         public const string DelayHoursMessage = "delay in hours";
+        public const string ScopeMessage = "ScriptBlock to add";
     }
 }

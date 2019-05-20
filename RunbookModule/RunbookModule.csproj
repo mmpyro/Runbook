@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Cmdlets\AddChapterCmdlet.cs" />
     <Compile Include="Cmdlets\AddChaptersCmdlet.cs" />
+    <Compile Include="Cmdlets\AddScope.cs" />
     <Compile Include="Cmdlets\AddSectionsCmdlet.cs" />
     <Compile Include="Cmdlets\AddSectionCmdlet.cs" />
     <Compile Include="Cmdlets\DelayRetryStrategyCmdlet.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="Factories\SequenceSectionFactory.cs" />
     <Compile Include="Factories\WindowSectionFactory.cs" />
     <Compile Include="Helpers\DateGeneratorHelper.cs" />
-    <Compile Include="Helpers\FunctionHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="IRunbook.cs" />
     <Compile Include="Loggers\FileLogger.cs" />

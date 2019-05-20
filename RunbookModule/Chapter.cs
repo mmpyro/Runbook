@@ -4,9 +4,9 @@ using RunbookModule.Report;
 using RunbookModule.RetriesStrategies;
 using RunbookModule.Wrappers;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management.Automation;
-using static RunbookModule.Helpers.FunctionHelper;
 
 
 namespace RunbookModule
@@ -15,6 +15,7 @@ namespace RunbookModule
     {
         void SetNumberOfRetries(int numberOfRetries);
         void SetRetryStrategy(IRetryStrategy retryStrategy);
+        void AddScope(ScriptBlock block);
         ChapterExecutionInfo Invoke(string sectionName, ILogger logger);
         string Name { get; }
     }
@@ -29,6 +30,7 @@ namespace RunbookModule
         private readonly object[] _arguments = new object[0];
         private string _name;
         private ScriptBlock _action;
+        private readonly List<ScriptBlock> _scopeBlocks = new List<ScriptBlock>();
 
         public string Name => _name;
 
@@ -79,6 +81,14 @@ namespace RunbookModule
             return _name.GetHashCode();
         }
 
+        public void AddScope(ScriptBlock block)
+        {
+            if (block != null)
+            {
+                _scopeBlocks.Add(block);
+            }
+        }
+
         public ChapterExecutionInfo Invoke(string sectionName, ILogger logger)
         {
             var chapetrStopWatch = new Stopwatch();
@@ -91,7 +101,7 @@ namespace RunbookModule
                     string errorMessage = null;
                     try
                     {
-                        SetupCommonFunctions(ps);
+                        _scopeBlocks.ForEach(block => ps.AddScript(block.ToString(), false));
                         ps.AddScript(_action.ToString(), false);
                         ps.AddParameters(_arguments);
                         ps.ClearStreams();
@@ -120,11 +130,6 @@ namespace RunbookModule
         public void SetRetryStrategy(IRetryStrategy retryStrategy)
         {
             _retryStrategy = retryStrategy;
-        }
-
-        private static void SetupCommonFunctions(IPsWrapper ps)
-        {
-            ps.AddScript(CheckOperationStatus(), false);
         }
 
         private StatusCode GetStatus(PsStatusDto psStatus)
