@@ -113,18 +113,18 @@ Describe 'Error handling' {
         $exception.Message|Should -Be "ChapterName cannot be null or empty"
     }
 
-     It "Chapter shouldn't be created with NumberOfRetries lower than one" {
+     It "Chapter shouldn't be created with NumberOfRetries lower than zero" {
         #Given
 
         #When
         $exception = TryCatch -Action {
-            $chapter1 = New-Chapter -Name 'task1' -Action {} -NumberOfRetries 0
+            $chapter1 = New-Chapter -Name 'task1' -Action {} -NumberOfRetries -1
         }
 
         #Then
         $exception| Should -Not -BeNullOrEmpty
         $exception.GetType()| Should -BeLike '*ArgumentException'
-        $exception.Message|Should -Be "NumberOfRetires cannot be lower than 1"
+        $exception.Message|Should -Be "NumberOfRetires cannot be lower than 0"
     }
 
      It "Sequence-Section shouldn't be created with empty Name" {

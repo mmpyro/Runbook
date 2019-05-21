@@ -15,7 +15,7 @@ namespace RunbookModule
     {
         void SetNumberOfRetries(int numberOfRetries);
         void SetRetryStrategy(IRetryStrategy retryStrategy);
-        void AddScope(ScriptBlock block);
+        void AddToScope(ScriptBlock block);
         ChapterExecutionInfo Invoke(string sectionName, ILogger logger);
         string Name { get; }
     }
@@ -81,7 +81,7 @@ namespace RunbookModule
             return _name.GetHashCode();
         }
 
-        public void AddScope(ScriptBlock block)
+        public void AddToScope(ScriptBlock block)
         {
             if (block != null)
             {

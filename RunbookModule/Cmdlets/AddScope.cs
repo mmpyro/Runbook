@@ -5,8 +5,8 @@ using System.Management.Automation;
 
 namespace RunbookModule.Cmdlets
 {
-    [Cmdlet(VerbsCommon.Add, "Scope")]
-    public class AddScope : Cmdlet
+    [Cmdlet(VerbsCommon.Add, "ToScope")]
+    public class AddToScope : Cmdlet
     {
         [Parameter(Mandatory = true, Position = 0, HelpMessage = HelpMessages.ChapterObjectMessage)]
         public IChapter Chapter { get; set; }
@@ -17,7 +17,7 @@ namespace RunbookModule.Cmdlets
         protected override void ProcessRecord()
         {
             Validate();
-            Chapter.AddScope(Scope);
+            Chapter.AddToScope(Scope);
         }
 
         private void Validate()

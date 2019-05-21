@@ -20,7 +20,7 @@ namespace RunbookModule.Cmdlets
         public ScriptBlock Action { get; set; }
 
         [Parameter(HelpMessage = "Number of retires when chapter executions fails")]
-        public int NumberOfRetries { get; set; } = 1;
+        public int NumberOfRetries { get; set; } = 0;
 
         [Parameter(HelpMessage = "If true error stream will be ignore when checking completion status")]
         public SwitchParameter IgnoreErrorStream { get; set; }
@@ -65,7 +65,7 @@ namespace RunbookModule.Cmdlets
             propertyValidator
                      .NotNullOrEmpty(Name, ErrorMessages.NullChapterNameErrorMessage)
                      .NotNull(Action, ErrorMessages.InvalidActionErrorMessage)
-                     .GreaterThanZero(NumberOfRetries, ErrorMessages.InvalidNumberOfRetriesErrorMessage);
+                     .GreaterOrEqualZero(NumberOfRetries, ErrorMessages.InvalidNumberOfRetriesErrorMessage);
         }
     }
 }
