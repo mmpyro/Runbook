@@ -71,7 +71,7 @@
   <ItemGroup>
     <Compile Include="Cmdlets\AddChapterCmdlet.cs" />
     <Compile Include="Cmdlets\AddChaptersCmdlet.cs" />
-    <Compile Include="Cmdlets\AddScope.cs" />
+    <Compile Include="Cmdlets\AddScopeCmdlet.cs" />
     <Compile Include="Cmdlets\AddSectionsCmdlet.cs" />
     <Compile Include="Cmdlets\AddSectionCmdlet.cs" />
     <Compile Include="Cmdlets\DelayRetryStrategyCmdlet.cs" />
